@@ -1,5 +1,6 @@
 APP_NAME := opml2pptx
-VERSION := 0.0.1
+DEFAULT_VERSION := 0.0.1-dev
+VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo "$(DEFAULT_VERSION)")
 BUILD_DIR := dist
 
 PLATFORMS := \
@@ -8,7 +9,7 @@ PLATFORMS := \
 	linux/amd64 \
 	windows/amd64
 
-.PHONY: all clean
+.PHONY: all clean test
 
 all: clean $(PLATFORMS)
 
@@ -24,3 +25,6 @@ $(PLATFORMS):
 
 clean:
 	@rm -rf $(BUILD_DIR)
+
+test:
+	@go test ./...
