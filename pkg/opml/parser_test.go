@@ -53,8 +53,8 @@ func TestParseOPML(t *testing.T) {
 		t.Errorf("expected slide 2 title 'Slide One', got %q", slide2.Title)
 	}
 	if len(slide2.Bullets) != 2 ||
-		slide2.Bullets[0] != "Bullet A" ||
-		slide2.Bullets[1] != "Bullet B" {
+		slide2.Bullets[0].Text != "Bullet A" ||
+		slide2.Bullets[1].Text != "Bullet B" {
 		t.Errorf("unexpected bullets in slide 2: %+v", slide2.Bullets)
 	}
 
@@ -62,7 +62,7 @@ func TestParseOPML(t *testing.T) {
 	if slide3.Title != "Slide Two" {
 		t.Errorf("expected slide 3 title 'Slide Two', got %q", slide3.Title)
 	}
-	if len(slide3.Bullets) != 1 || slide3.Bullets[0] != "Point 1" {
+	if len(slide3.Bullets) != 1 || slide3.Bullets[0].Text != "Point 1" {
 		t.Errorf("unexpected bullets in slide 3: %+v", slide3.Bullets)
 	}
 	if slide3.Notes != "Speaker notes here." {

@@ -91,22 +91,26 @@
           </a:bodyPr>
           <a:lstStyle/>
           
-          <!-- Generate bullet points -->
-          {{range $i, $bullet := .Bullets}}
-          <a:p>
-            <a:pPr indent="-342900" lvl="0" marL="457200" rtl="0" algn="l">
-              <a:spcBef><a:spcPts val="0"/></a:spcBef>
-              <a:spcAft><a:spcPts val="0"/></a:spcAft>
-              <a:buSzPts val="1800"/>
-              <a:buChar char="-"/>
-            </a:pPr>
-            <a:r>
-              <a:rPr lang="en"/>
-              <a:t>{{xmlEscape $bullet}}</a:t>
-            </a:r>
-            <a:endParaRPr/>
-          </a:p>
+          <!-- Generate hierarchical bullet points -->
+          {{define "renderBullets"}}
+            {{range .}}
+            <a:p>
+              <a:pPr indent="{{add (mul .Level 228600) -342900}}" lvl="{{.Level}}" marL="{{add (mul .Level 228600) 457200}}" rtl="0" algn="l">
+                <a:spcBef><a:spcPts val="0"/></a:spcBef>
+                <a:spcAft><a:spcPts val="0"/></a:spcAft>
+                <a:buSzPts val="1800"/>
+                {{if eq .Level 0}}<a:buChar char="-"/>{{else if eq .Level 1}}<a:buChar char="•"/>{{else}}<a:buChar char="◦"/>{{end}}
+              </a:pPr>
+              <a:r>
+                <a:rPr lang="en"/>
+                <a:t>{{xmlEscape .Text}}</a:t>
+              </a:r>
+              <a:endParaRPr/>
+            </a:p>
+            {{template "renderBullets" .Children}}
+            {{end}}
           {{end}}
+          {{template "renderBullets" .Bullets}}
         </p:txBody>
       </p:sp>
     </p:spTree>

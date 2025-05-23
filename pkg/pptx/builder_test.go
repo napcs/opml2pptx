@@ -19,17 +19,24 @@ func createTestPresentation() *opml.Presentation {
 		Slides: []opml.Slide{
 			{
 				Title:   "Test Presentation & <Special> Characters",
-				Bullets: []string{},
+				Bullets: []opml.Bullet{},
 				Notes:   "",
 			},
 			{
 				Title:   "Content Slide with <XML> & \"Quotes\"",
-				Bullets: []string{"Bullet & Point 1", "Bullet <Two>", "Point \"Three\""},
+				Bullets: []opml.Bullet{
+					{Text: "Bullet & Point 1", Level: 0},
+					{Text: "Bullet <Two>", Level: 0},
+					{Text: "Point \"Three\"", Level: 0},
+				},
 				Notes:   "These are speaker notes with <special> & characters.",
 			},
 			{
 				Title:   "Another Content Slide",
-				Bullets: []string{"Simple bullet", "Another point"},
+				Bullets: []opml.Bullet{
+					{Text: "Simple bullet", Level: 0},
+					{Text: "Another point", Level: 0},
+				},
 				Notes:   "",
 			},
 		},

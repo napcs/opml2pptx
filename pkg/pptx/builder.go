@@ -24,6 +24,8 @@ type fileEntry struct {
 
 var funcMap = template.FuncMap{
 	"add": func(a, b int) int { return a + b },
+	"mul": func(a, b int) int { return a * b },
+	"eq":  func(a, b int) bool { return a == b },
 	"xmlEscape": html.EscapeString,
 }
 

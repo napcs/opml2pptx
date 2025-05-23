@@ -22,9 +22,15 @@ type OPML struct {
 	} `xml:"body"`
 }
 
+type Bullet struct {
+	Text     string
+	Level    int
+	Children []Bullet
+}
+
 type Slide struct {
 	Title   string
-	Bullets []string
+	Bullets []Bullet
 	Notes   string
 }
 
@@ -70,9 +76,7 @@ func ParseOPML(r io.Reader) (*Presentation, error) {
 			Title: child.Text,
 			Notes: collectNote(child),
 		}
-		for _, bullet := range child.Child {
-			slide.Bullets = append(slide.Bullets, bullet.Text)
-		}
+		slide.Bullets = convertOutlinesToBullets(child.Child, 0)
 		presentation.Slides = append(presentation.Slides, slide)
 	}
 
@@ -89,4 +93,18 @@ func collectNote(node Outline) string {
 		}
 	}
 	return ""
+}
+
+// convertOutlinesToBullets recursively converts OPML outlines to hierarchical bullets
+func convertOutlinesToBullets(outlines []Outline, level int) []Bullet {
+	var bullets []Bullet
+	for _, outline := range outlines {
+		bullet := Bullet{
+			Text:     outline.Text,
+			Level:    level,
+			Children: convertOutlinesToBullets(outline.Child, level+1),
+		}
+		bullets = append(bullets, bullet)
+	}
+	return bullets
 }
