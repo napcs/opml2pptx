@@ -41,7 +41,7 @@ Requirements:
 - Go 1.19 or later
 
 ```bash
-git clone https://github.com/yourusername/opml2pptx.git
+git clone https://github.com/napcs/opml2pptx.git
 cd opml2pptx
 make all
 ```
